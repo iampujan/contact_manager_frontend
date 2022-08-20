@@ -1,5 +1,6 @@
 import React from "react";
 import { Button, Checkbox, Form, Input } from 'antd';
+import { signUp } from "../api/auth";
 
 interface Props {
 
@@ -7,7 +8,16 @@ interface Props {
 
 const SignUp: React.FC<Props> = () => {
 
-    const onFinish = (values: any) => {
+    const onFinish = async (values: any) => {
+        if (values.password !== values.retypepassword) {
+            alert("Password doesn't match.")
+            return
+        }
+        try {
+            await signUp({ firstName: values.firstName, lastName: values.lastName, email: values.email, password: values.password })
+        } catch (error) {
+            console.error("Signup error.")
+        }
         console.log('Success:', values);
     };
 
